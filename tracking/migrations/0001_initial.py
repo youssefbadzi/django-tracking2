@@ -43,7 +43,6 @@ class Migration(migrations.Migration):
             ],
             options={
                 'ordering': ('-start_time',),
-                'permissions': (('view_visitor', 'Can view visitor'),),
             },
             bases=(models.Model,),
         ),

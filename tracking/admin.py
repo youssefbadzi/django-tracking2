@@ -9,6 +9,7 @@ class VisitorAdmin(admin.ModelAdmin):
     list_display = ('session_key', 'user', 'start_time', 'session_over',
         'pretty_time_on_site', 'ip_address', 'user_agent')
     list_filter = ('user', 'ip_address')
+    search_fields = ('session_key', 'user__username', 'user__email', 'user__first_name', 'user__last_name')
 
     def session_over(self, obj):
         return obj.session_ended() or obj.session_expired()
@@ -26,8 +27,15 @@ admin.site.register(Visitor, VisitorAdmin)
 class PageviewAdmin(admin.ModelAdmin):
     date_hierarchy = 'view_time'
 
-    list_display = ('url', 'view_time')
+    list_display = ('url', 'view_time', 'get_session_key', 'get_user')
+    list_filter = ('visitor__user', )
+    search_fields = ('visitor__session_key', 'visitor__user__username', 'visitor__user__email', 'visitor__user__first_name', 'visitor__user__last_name')
 
+    def get_session_key(self, obj):
+        return obj.visitor.session_key
+
+    def get_user(self, obj):
+        return obj.visitor.user
 
 if TRACK_PAGEVIEWS:
     admin.site.register(Pageview, PageviewAdmin)

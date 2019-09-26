@@ -7,8 +7,8 @@ class VisitorAdmin(admin.ModelAdmin):
     date_hierarchy = 'start_time'
 
     list_display = ('session_key', 'user', 'start_time', 'session_over',
-        'pretty_time_on_site', 'ip_address', 'user_agent')
-    list_filter = ('user', 'ip_address')
+        'pretty_time_on_site', 'ip_address', 'user_agent', 'source', 'medium')
+    list_filter = ('user', 'ip_address', 'source', 'medium')
     search_fields = ('session_key', 'user__username', 'user__email', 'user__first_name', 'user__last_name')
 
     def session_over(self, obj):

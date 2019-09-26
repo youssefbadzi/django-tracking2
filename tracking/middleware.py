@@ -109,6 +109,16 @@ class VisitorTrackingMiddleware(MiddlewareMixin):
             visitor.user_agent = smart_text(
                 user_agent, encoding='latin-1', errors='ignore')
 
+        # grab the source param and store it
+        source = request.GET.get('source', None)
+        if source:
+            visitor.source = source
+
+        # grab the medium param and store it
+        medium = request.GET.get('medium', None)
+        if medium:
+            visitor.medium = medium
+
         time_on_site = 0
         if visitor.start_time:
             time_on_site = total_seconds(visit_time - visitor.start_time)
